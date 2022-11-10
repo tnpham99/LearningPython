@@ -4,66 +4,66 @@ import math
 
 class House():
     def __init__(self, base, border = 'X', fill = '*'):
-        self.__base = base
-        self.__border = border
-        self.__fill = fill
         if base < 3:
-            self.__base = 3
-        if base > 37:
-            self.__base = 37
-        self.__roofside = self.__base + 2
-        self.__SetBorder()
-        self.__SetFill()
+            base = 3
+        elif base > 37:
+            base = 37
+        self.__base = base
+        self.__roofheight = self.__base + 2
+        self.set_border(border)
+        self.set_fill(fill)
     
-    def __GetSize(self):
-        return f'Base size: {int(self.__base)} units'
+    def get_size(self):
+        return int(self.__base)
 
-    def __GetPerimeter(self):
-        p = self.__base * 3 + self.__roofside * 2 + 2
-        return f'Perimeter: {p} units'
+    def get_perimeter(self):
+        p = self.__base * 3 + self.__roofheight * 2 + 2
+        return p
 
-    def __GetArea(self):
-        a_roof = self.__roofside * math.sqrt(3)/4
+    def get_area(self):
+        a_roof = self.__roofheight * math.sqrt(3)/4
         a_base = self.__base**2
         a = a_roof + a_base
-        return f'Area: {round(float(a),2)} square units'
+        return round(a,2)
 
-    def Grow(self):
-        self.__base = self.__base + 1
+    def set_border(self, border):
+        if ord(border) not in range(33,127):
+            self.__border = 'X'
+        self.__border = border
+
+    def set_fill(self, fill):
+        if ord(fill) not in range(33,127):
+            self.__fill = '*'
+        self.__fill = fill
+
+    def grow(self):
+        self.__base += 1
         if self.__base > 37:
             self.__base = 37
-        self.__roofside = self.__base + 2
+        self.__roofheight = self.__base + 2
 
-    def Shrink(self):
-        self.__base = self.__base - 1
+    def shrink(self):
+        self.__base -= 1
         if self.__base < 3:
             self.__base = 3
-        self.__roofside = self.__base + 2
+        self.__roofheight = self.__base + 2
 
-    def __SetBorder(self):
-        if ord(self.__border) not in range(33,127):
-            self.__border = 'X'
-        
-    def __SetFill(self):
-        if ord(self.__fill) not in range(33,127):
-            self.__fill = '*'
-
-    def __Draw(self):
-        print(' '*(self.__roofside-1) + self.__border)
-        draw_roof = self.__roofside - 2
-        for i in range(draw_roof):
-            print(' '*draw_roof + self.__border + (' ' + self.__fill)*i + ' ' + self.__border)
-            draw_roof = draw_roof - 1
+    def draw(self):
+        print(' '*(self.__roofheight-1) + self.__border)
+        roof_body = self.__roofheight - 2
+        for i in range(roof_body):
+            print(' '*roof_body + self.__border + (' ' + self.__fill)*i + ' ' + self.__border)
+            roof_body -= 1
         print(self.__border + ' ' + self.__border + (' ' + self.__fill)*(self.__base-2) + (' ' + self.__border)*2)
         for i in range(self.__base-2):
             print(' '*2 + self.__border + (' ' + self.__fill)*(self.__base-2) + ' ' + self.__border)
         print(' '*2 + (self.__border + ' ')*self.__base)
 
-    def Summary(self):
-        print(self.__GetSize())
-        print(self.__GetPerimeter())
-        print(self.__GetArea())
-        print(self.__Draw())
+    def summary(self):
+        print(f'Base size: {self.get_size()} units')
+        print(f'Perimeter: {self.get_perimeter()} units')
+        print(f'Area: {self.get_area()} square units')
+        self.draw()
 
-house1 = House(3)
-house1.Summary()
+house1 = House(5)
+house1.summary()
