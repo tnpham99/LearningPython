@@ -31,9 +31,9 @@ class Date():
         return self.y
     
     def set_date(self, m, d, y):
-        self.get_month(m)
-        self.get_day(d)
-        self.get_year(y)
+        self.m = m
+        self.d = d
+        self.y = y
         self.__handle_leap_yr()
         if self.m > 12 or self.m < 1 or self.d < 1 or (self.m in [1,3,5,7,8,10,12] and self.d > 31) or (self.m == 2 and self.d > self.__feb_days) or (self.m not in [1,2,3,5,7,8,10,12] and self.d > 30) or self.y < 0:
             self.m = 1
@@ -128,5 +128,5 @@ class Date():
                 self.__jul_days = '0' + str(self.__jul_days)
 
 d1 = Date(10, 30, 1998)
-print(d1.set_date(11, 35, 2000))
+print(d1.get_month())
 d1.show()
