@@ -3,13 +3,10 @@
 month_abb = {'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': 'May', '6': 'June', '7': 'July', '8': 'Aug', '9': 'Sept', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
 
 class Date():
-    def __init__(self, m = 1, d = 1, y = 2000) -> None:
-        self.m = m
-        self.d = d
-        self.y = y
+    def __init__(self, m, d, y) -> None:
         if not self.set(m, d, y):
             print('Invalid date.')
-        self.__user_date = f'{self.m}/{self.d}/{self.y}'
+        self.__user_date = f'{m}/{d}/{y}'
 
     def get_input(self):
         self.__user_date = input('Enter a date following format month/day/year: ')
@@ -30,10 +27,13 @@ class Date():
     def get_year(self):
         return self.y
     
-    def set(self, m, d, y):
+    def set(self, m = 1, d = 1, y = 2000):
         if not self.__is_valid_day(m, d, y) or not self.__is_valid_year(y):
             return False
-        self.__user_date = f'{m}/{d}/{y}'
+        self.m = m
+        self.d = d
+        self.y = y
+        self.__user_date = f'{self.m}/{self.d}/{self.y}'
         return True
 
     def set_format(self, setting_code = 'D'):
@@ -149,5 +149,4 @@ class Date():
                 self.__jul_days = '0' + str(self.__jul_days)
 
 d1 = Date(10, 25, 1998)
-print(d1.set(11,25,2022))
 d1.show()
