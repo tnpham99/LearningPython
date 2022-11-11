@@ -7,7 +7,7 @@ class Date():
         self.m = m
         self.d = d
         self.y = y
-        if self.set(m, d, y) is False:
+        if not self.set(m, d, y):
             print('Invalid date.')
         self.__user_date = f'{self.m}/{self.d}/{self.y}'
 
@@ -31,7 +31,7 @@ class Date():
         return self.y
     
     def set(self, m, d, y):
-        if not self.__is_valid_month(m) or not self.__is_valid_day(m, y) or not self.__is_valid_year(y):
+        if not self.__is_valid_day(m, y) or not self.__is_valid_year(y):
             return False
         self.__user_date = f'{m}/{d}/{y}'
         return True
@@ -109,9 +109,17 @@ class Date():
         if not self.__is_valid_month(m):
             return False
         else:
-            if (m in [1,3,5,7,8,10,12] and d > 31) or (m == 2 and d > self.__feb_days) or (m in [4,6,9,11] and d > 30):
-                return False
-            return True
+            if d in range(32):
+                if m in [1,3,5,7,8,10,12]:
+                    return True
+                elif m in [4,6,9,11]:
+                    if d in range(31):
+                        return True
+                    return False
+                else:
+                    if d in range(len(self.__feb_days + 1)):
+                        return True
+                    return False
 
     def __handle_leap_yr(self):
         if str(self.y)[-2:] != '00':
@@ -139,5 +147,4 @@ class Date():
                 self.__jul_days = '0' + str(self.__jul_days)
 
 d1 = Date(10, 25, 1998)
-print(d1.set(10, 2, 1998))
 d1.show()
