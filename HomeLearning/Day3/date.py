@@ -31,7 +31,6 @@ class Date():
         return self.y
     
     def set(self, m, d, y):
-        self.__handle_leap_yr()
         if not self.__is_valid_month(m) or not self.__is_valid_day(m, y) or not self.__is_valid_year(y):
             self.__user_date = f'{self.m}/{self.d}/{self.y}'
             return False
@@ -110,9 +109,12 @@ class Date():
         return True
 
     def __is_valid_day(self, m, d):
-        if (m in [1,3,5,7,8,10,12] and d > 31) or (m == 2 and d > self.__feb_days) or (m not in [1,2,3,5,7,8,10,12] and d > 30):
-            return False
-        return True
+        self.__handle_leap_yr()
+        if self.__is_valid_month():
+            if (m in [1,3,5,7,8,10,12] and d > 31) or (m == 2 and d > self.__feb_days) or (m not in [1,2,3,5,7,8,10,12] and d > 30):
+                return False
+            return True
+        return False
 
     def __handle_leap_yr(self):
         if str(self.y)[-2:] != '00':
