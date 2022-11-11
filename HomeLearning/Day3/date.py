@@ -7,7 +7,8 @@ class Date():
         self.get_month(m)
         self.get_day(d)
         self.get_year(y)
-        self.set_date(m, d, y)
+        if self.set_date(m, d, y) is False:
+            print('Invalid date.')
         self.__user_date = f'{self.m}/{self.d}/{self.y}'
 
     def get_input(self):
@@ -102,7 +103,7 @@ class Date():
             return -1
 
     def show(self):
-        print('Date is:', self.__user_date)
+        print('Date:', self.__user_date)
     
     def __handle_leap_yr(self):
         if str(self.y)[-2:] != '00':
@@ -124,8 +125,11 @@ class Date():
             self.__jul_days += days_in_month[str(i+1)]
         self.__jul_days += self.d
         if self.__jul_days < 100:
-            self.__jul_days = '0' + str(self.__jul_days)
+            if self.__jul_days < 10:
+                self.__jul_days = '00' + str(self.__jul_days)
+            else:
+                self.__jul_days = '0' + str(self.__jul_days)
 
-d1 = Date(10, 1, 1998)
-d1.set_format('J')
+d1 = Date(10, 30, 1998)
+print(d1.set_date(11, 35, 2000))
 d1.show()
