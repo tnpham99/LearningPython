@@ -4,9 +4,9 @@ month_abb = {'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': 'May', '6': 'J
 
 class Date():
     def __init__(self, m = 1, d = 1, y = 2000) -> None:
-        self.get_month(m)
-        self.get_day(d)
-        self.get_year(y)
+        self.m = m
+        self.d = d
+        self.y = y
         if self.set_date(m, d, y) is False:
             print('Invalid date.')
         self.__user_date = f'{self.m}/{self.d}/{self.y}'
@@ -21,16 +21,13 @@ class Date():
             print('Invalid date. Try again.')
             self.get_input()
 
-    def get_month(self, m):
-        self.m = int(m)
+    def get_month(self):
         return self.m
 
-    def get_day(self, d):
-        self.d = int(d)
+    def get_day(self):
         return self.d
     
-    def get_year(self, y):
-        self.y = int(y)
+    def get_year(self):
         return self.y
     
     def set_date(self, m, d, y):
