@@ -6,7 +6,10 @@ class Date():
     def __init__(self, m, d, y) -> None:
         if not self.set(m, d, y):
             print('Invalid date.')
-        self.__user_date = f'{m}/{d}/{y}'
+            self.m = 1
+            self.d = 1
+            self.y = 2000 
+        self.__user_date = f'{self.m}/{self.d}/{self.y}'
 
     def get_input(self):
         self.__user_date = input('Enter a date following format month/day/year: ')
@@ -27,7 +30,7 @@ class Date():
     def get_year(self):
         return self.y
     
-    def set(self, m = 1, d = 1, y = 2000):
+    def set(self, m, d, y):
         if not self.__is_valid_day(m, d, y) or not self.__is_valid_year(y):
             return False
         self.m = m
@@ -148,5 +151,6 @@ class Date():
             else:
                 self.__jul_days = '0' + str(self.__jul_days)
 
-d1 = Date(10, 25, 1998)
+d1 = Date(1, 1, 1998)
+d1.set(2,1,2000)
 d1.show()
