@@ -7,7 +7,7 @@ class Date():
         self.m = m
         self.d = d
         self.y = y
-        if self.set_date(m, d, y) is False:
+        if self.set(m, d, y) is False:
             print('Invalid date.')
         self.__user_date = f'{self.m}/{self.d}/{self.y}'
 
@@ -17,7 +17,7 @@ class Date():
         self.m = int(date_as_list[0])
         self.d = int(date_as_list[1])
         self.y = int(date_as_list[2])
-        if self.set_date(self.m, self.d, self.y) is False:
+        if self.set(self.m, self.d, self.y) is False:
             print('Invalid date. Try again.')
             self.get_input()
 
@@ -30,9 +30,9 @@ class Date():
     def get_year(self):
         return self.y
     
-    def set_date(self, m, d, y):
+    def set(self, m, d, y):
         self.__handle_leap_yr()
-        if self.__is_valid_month() is False or self.__is_valid_day() is False or self.__is_valid_year() is False:
+        if not self.__is_valid_month(m) or not self.__is_valid_day(m, y) or not self.__is_valid_year(y):
             self.__user_date = f'{self.m}/{self.d}/{self.y}'
             return False
         self.m = m
@@ -99,18 +99,18 @@ class Date():
     def show(self):
         print('Date:', self.__user_date)
 
-    def __is_valid_year(self):
-        if self.y < 0:
+    def __is_valid_year(self, y):
+        if y < 0:
             return False
         return True
     
-    def __is_valid_month(self):
-        if self.m > 12 or self.m < 1:
+    def __is_valid_month(self, m):
+        if m > 12 or m < 1:
             return False
         return True
 
-    def __is_valid_day(self):
-        if (self.m in [1,3,5,7,8,10,12] and self.d > 31) or (self.m == 2 and self.d > self.__feb_days) or (self.m not in [1,2,3,5,7,8,10,12] and self.d > 30):
+    def __is_valid_day(self, m, d):
+        if (m in [1,3,5,7,8,10,12] and d > 31) or (m == 2 and d > self.__feb_days) or (m not in [1,2,3,5,7,8,10,12] and d > 30):
             return False
         return True
 
