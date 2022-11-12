@@ -12,14 +12,15 @@ class Date():
         self.__user_date = f'{self.m}/{self.d}/{self.y}'
 
     def get_input(self):
-        self.__user_date = input('Enter a date following format month/day/year: ')
-        date_as_list = self.__user_date.split('/')
+        input_date = input('Enter a date following format month/day/year: ')
+        date_as_list = input_date.split('/')
         while not self.set(int(date_as_list[0]), int(date_as_list[1]), int(date_as_list[2])):
-            self.__user_date = input('Invalid date. Try again: ')
-            date_as_list = self.__user_date.split('/')
+            input_date = input('Invalid date. Try again: ')
+            date_as_list = input_date.split('/')
         self.m = int(date_as_list[0])
         self.d = int(date_as_list[1])
         self.y = int(date_as_list[2])
+        self.__user_date = f'{self.m}/{self.d}/{self.y}'
 
     def get_month(self):
         return self.m
