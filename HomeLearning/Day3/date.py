@@ -8,8 +8,8 @@ class Date():
             print('Invalid date.')
             self.m = 1
             self.d = 1
-            self.y = 2000 
-        self.__user_date = f'{self.m}/{self.d}/{self.y}'
+            self.y = 2000
+        self.__format = 'Default'
 
     def get_input(self):
         input_date = input('Enter a date following format month/day/year: ')
@@ -20,7 +20,6 @@ class Date():
         self.m = int(date_as_list[0])
         self.d = int(date_as_list[1])
         self.y = int(date_as_list[2])
-        self.__user_date = f'{self.m}/{self.d}/{self.y}'
 
     def get_month(self):
         return self.m
@@ -37,23 +36,22 @@ class Date():
         self.m = m
         self.d = d
         self.y = y
-        self.__user_date = f'{self.m}/{self.d}/{self.y}'
         return True
 
-    def set_format(self, setting_code = 'D'):
-        if setting_code == 'D':
-            self.__user_date = f'{self.m}/{self.d}/{self.y}'
-        elif setting_code == 'T':
+    def set_format(self, code):
+        if code == 'D':
+            self.__format = 'Default'
+        elif code == 'T':
             if self.m in range(10):
                 self.m = '0' + str(self.m)
             if self.d in range(10):
                 self.d = '0' + str(self.d)
-            self.__user_date = f'{self.m}/{self.d}/{str(self.y)[-2:]}'
-        elif setting_code == 'L':
-            self.__user_date = f'{month_abb[str(self.m)]} {self.d}, {self.y}'
-        elif setting_code == 'J':
+            self.__format = 'Two-Digit'
+        elif code == 'L':
+            self.__format = 'Long'
+        elif code == 'J':
             self.__set_jul_days()
-            self.__user_date = f'{str(self.y)[-2:]}-{self.__jul_days}'
+            self.__format= 'Julian'
         else:
             return False
         return True
@@ -75,7 +73,6 @@ class Date():
             self.d = num_days
         else:
             self.d += num_days
-        self.__user_date = f'{self.m}/{self.d}/{self.y}'
 
     def compare(self, other_date):
         if self.y == other_date.y:
@@ -96,7 +93,15 @@ class Date():
             return -1
 
     def show(self):
-        print('Date:', self.__user_date)
+        if self.__format == 'Default':
+            format_setting = f'{self.m}/{self.d}/{self.y}'
+        elif self.__format == 'Two-Digit':
+            format_setting = f'{self.m}/{self.d}/{str(self.y)[-2:]}'
+        elif self.__format == 'Long':
+            format_setting = f'{month_abb[str(self.m)]} {self.d}, {self.y}'
+        elif self.__format == 'Julian':
+            format_setting = f'{str(self.y)[-2:]}-{self.__jul_days}'
+        print('Date:', format_setting)
 
     def __is_valid_year(self, y):
         if y < 0:
@@ -153,5 +158,5 @@ class Date():
                 self.__jul_days = '0' + str(self.__jul_days)
 
 d1 = Date(1, 1, 1998)
-d1.get_input()
+d1.set_format('T')
 d1.show()
