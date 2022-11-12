@@ -14,12 +14,12 @@ class Date():
     def get_input(self):
         self.__user_date = input('Enter a date following format month/day/year: ')
         date_as_list = self.__user_date.split('/')
+        while not self.set(int(date_as_list[0]), int(date_as_list[1]), int(date_as_list[2])):
+            self.__user_date = input('Invalid date. Try again: ')
+            date_as_list = self.__user_date.split('/')
         self.m = int(date_as_list[0])
         self.d = int(date_as_list[1])
         self.y = int(date_as_list[2])
-        if self.set(self.m, self.d, self.y) is False:
-            print('Invalid date. Try again.')
-            self.get_input()
 
     def get_month(self):
         return self.m
@@ -152,5 +152,5 @@ class Date():
                 self.__jul_days = '0' + str(self.__jul_days)
 
 d1 = Date(1, 1, 1998)
-d1.set(2,1,2000)
+d1.get_input()
 d1.show()
