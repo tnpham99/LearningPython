@@ -53,7 +53,7 @@ class Date():
         return True
 
     def increase_days(self, num_days = 1):
-        for i in range(num_days):
+        for day in range(num_days):
             if self.m == 2:
                 if (self.__is_leap_yr(self.y) and self.d == 29) or (not self.__is_leap_yr(self.y) and self.d == 28):
                     self.m = 3
