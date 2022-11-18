@@ -9,7 +9,7 @@ class Date():
             self.m = 1
             self.d = 1
             self.y = 2000
-        self.__format = 'Default'
+        self.__format_setting = 'Default'
 
     def get_input(self):
         input_date = input('Enter a date following format month/day/year: ')
@@ -40,39 +40,37 @@ class Date():
 
     def set_format(self, code):
         if code == 'D':
-            self.__format = 'Default'
+            self.__format_setting = 'Default'
         elif code == 'T':
-            if self.m in range(10):
-                self.m = '0' + str(self.m)
-            if self.d in range(10):
-                self.d = '0' + str(self.d)
-            self.__format = 'Two-Digit'
+            self.__format_setting = 'Two-Digit'
         elif code == 'L':
-            self.__format = 'Long'
+            self.__format_setting = 'Long'
         elif code == 'J':
-            self.__set_jul_days()
-            self.__format= 'Julian'
+            self.__set_jul_days(self.y)
+            self.__format_setting= 'Julian'
         else:
             return False
         return True
 
-    def increase_days(self, y, num_days = 1):
-        if self.m == 12 and self.d == 31:
-            self.y += 1
-            self.m = 1
-            self.d = num_days
-        elif self.m in [1,3,5,7,8,10] and self.d == 31:
-            self.m += 1
-            self.d = num_days
-        elif self.m == 2:
-            if (self.__is_leap_yr(y) and self.d == 29) or (not self.__is_leap_yr(y) and self.d == 28):
-                self.m = 3
-                self.d = num_days
-        elif self.m in [4,6,9,11] and self.d == 30:
-            self.m += 1
-            self.d = num_days
-        else:
-            self.d += num_days
+    def increase_days(self, num_days = 1):
+        for i in range(num_days):
+            if self.m == 2:
+                if (self.__is_leap_yr(self.y) and self.d == 29) or (not self.__is_leap_yr(self.y) and self.d == 28):
+                    self.m = 3
+                    self.d = 0
+            elif self.d == 31:
+                if self.m == 12:
+                    self.y += 1
+                    self.m = 1
+                    self.d = 0
+                elif self.m in [1,3,5,7,8,10]:
+                    self.m += 1
+                    self.d = 0
+            elif self.d == 30:
+                if self.m in [4,6,9,11]:
+                    self.m += 1
+                    self.d = 0
+            self.d += 1
 
     def compare(self, other_date):
         if self.y == other_date.y:
@@ -93,15 +91,19 @@ class Date():
             return -1
 
     def show(self):
-        if self.__format == 'Default':
-            format_setting = f'{self.m}/{self.d}/{self.y}'
-        elif self.__format == 'Two-Digit':
-            format_setting = f'{self.m}/{self.d}/{str(self.y)[-2:]}'
-        elif self.__format == 'Long':
-            format_setting = f'{month_abb[str(self.m)]} {self.d}, {self.y}'
-        elif self.__format == 'Julian':
-            format_setting = f'{str(self.y)[-2:]}-{self.__jul_days}'
-        print('Date:', format_setting)
+        if self.__format_setting == 'Default':
+            string_date = f'{self.m}/{self.d}/{self.y}'
+        elif self.__format_setting == 'Two-Digit':
+            if self.m in range(10):
+                self.m = '0' + str(self.m)
+            if self.d in range(10):
+                self.d = '0' + str(self.d)
+            string_date = f'{self.m}/{self.d}/{str(self.y)[-2:]}'
+        elif self.__format_setting == 'Long':
+            string_date = f'{month_abb[str(self.m)]} {self.d}, {self.y}'
+        elif self.__format_setting == 'Julian':
+            string_date = f'{str(self.y)[-2:]}-{self.__jul_days}'
+        print('Date:', string_date)
 
     def __is_valid_year(self, y):
         if y < 0:
@@ -157,6 +159,7 @@ class Date():
             else:
                 self.__jul_days = '0' + str(self.__jul_days)
 
-d1 = Date(1, 1, 1998)
+d1 = Date(10, 24, 2023)
 d1.set_format('T')
+d1.increase_days(50)
 d1.show()
