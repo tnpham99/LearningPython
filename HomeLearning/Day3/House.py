@@ -65,5 +65,5 @@ class House():
         print(f'Area: {self.get_area()} square units')
         self.draw()
 
-house1 = House(5)
-house1.summary()
+# house1 = House(5)
+# house1.summary()
