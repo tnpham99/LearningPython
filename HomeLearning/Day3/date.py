@@ -102,6 +102,11 @@ class Date():
         elif self.__format_setting == 'Long':
             string_date = f'{month_abb[str(self.m)]} {self.d}, {self.y}'
         elif self.__format_setting == 'Julian':
+            if self.__jul_days < 100:
+                if self.__jul_days < 10:
+                    self.__jul_days = '00' + str(self.__jul_days)
+                else:
+                    self.__jul_days = '0' + str(self.__jul_days)
             string_date = f'{str(self.y)[-2:]}-{self.__jul_days}'
         print('Date:', string_date)
 
@@ -153,13 +158,7 @@ class Date():
         for i in range(self.m-1):
             self.__jul_days += days_in_month[str(i+1)]
         self.__jul_days += self.d
-        if self.__jul_days < 100:
-            if self.__jul_days < 10:
-                self.__jul_days = '00' + str(self.__jul_days)
-            else:
-                self.__jul_days = '0' + str(self.__jul_days)
 
-d1 = Date(10, 24, 2023)
-d1.set_format('T')
-d1.increase_days(50)
+d1 = Date(5, 17, 2023)
+d1.set_format('J')
 d1.show()
