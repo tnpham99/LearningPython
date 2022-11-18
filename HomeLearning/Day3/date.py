@@ -159,6 +159,6 @@ class Date():
             self.__jul_days += days_in_month[str(i+1)]
         self.__jul_days += self.d
 
-d1 = Date(5, 17, 2023)
+d1 = Date(1, 1, 1998)
 d1.set_format('J')
 d1.show()
